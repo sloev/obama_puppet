@@ -1,0 +1,17 @@
+3
+*
+
+trunc:
+en afrunding eller afskæring
+
+where:
+der kommer betingelser på
+
+hvis der står '%''%'
+i select betyder aller
+
+hvis
+'%\%%' escape '\'
+betyder at hvis et navn indeholder % blir det undladt
+
+
