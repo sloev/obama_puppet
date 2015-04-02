@@ -20,6 +20,7 @@ def split_to_list(mp4_filename, textgrid_filename, output_root_dir):
 #    print "files loaded into video splitter"
 
     for interval in textgrid:
+        if counter>5: break
         interval_string = str(interval)
         beginning, end, mark = interval_string[interval_string.find("(") + 1 : interval_string.find(")")].split(",")
         beginning = float(beginning)
@@ -42,8 +43,10 @@ def split_to_list(mp4_filename, textgrid_filename, output_root_dir):
             if not os.path.exists(output_root_dir + new_dir):
                 os.makedirs(output_root_dir + new_dir)
             shutil.move(tmp_mp4_filename, output_root_dir + new_filename)
-
-            query_list += [{"seq_number" : counter, "mark" : mark, "beginning" : beginning, "end" : end, "filename_without_root" : new_filename}]
+            duration = end - beginning
+            values = [counter, mark, beginning, end, duration, new_filename]
+            #query_list += [{"seq_number" : counter, "mark" : mark, "beginning" : beginning, "end" : end, "duration" : duration, "relative_filepath" : new_filename}]
+            query_list += [values]
             counter += 1
         else:
             pass
