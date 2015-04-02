@@ -2,3 +2,8 @@ a project that splits weekly addresses by obama into word segments and stores th
 
 
 relies on prosodylab.aligner and aligner models/eng dicts are form their repo
+
+
+Please you use this tool; we would appreciate if you cited the following paper:
+
+Gorman, Kyle, Jonathan Howell and Michael Wagner. 2011. Prosodylab-Aligner: A Tool for Forced Alignment of Laboratory Speech. Canadian Acoustics. 39.3. 192–193.
