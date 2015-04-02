@@ -1,1 +1,4 @@
 a project that splits weekly addresses by obama into word segments and stores them in a psql db with meta data. as well as an app for compiling said data into video files again
+
+
+relies on prosodylab.aligner and aligner models/eng dicts are form their repo
