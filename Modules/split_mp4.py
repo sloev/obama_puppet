@@ -5,10 +5,10 @@ from hash_helper import file_to_b32_hash
 from textgrid import TextGrid
 from moviepy.editor import *
 
-def split_to_list(mp4_filename, textgrid_filename, output_root_dir):
+def split_to_list(mp4_filename, textgrid_filename, air_date, output_root_dir):
     tmp_mp4_filename = "/tmp/obama_segmenter.mp4"
-    textgrid_abs_filename = os.path.abspath(textgrid_filename)
-    textgrid = TextGrid.fromFile(textgrid_abs_filename)
+    #textgrid_abs_filename = os.path.abspath(textgrid_filename)
+    textgrid = TextGrid.fromFile(textgrid_filename)
     textgrid = textgrid[len(textgrid)-1]
 
     original_videoclip = VideoFileClip(mp4_filename)
@@ -20,7 +20,7 @@ def split_to_list(mp4_filename, textgrid_filename, output_root_dir):
 #    print "files loaded into video splitter"
 
     for interval in textgrid:
-#        if counter>5: break
+        if counter>5: break
         interval_string = str(interval)
         beginning, end, mark = interval_string[interval_string.find("(") + 1 : interval_string.find(")")].split(",")
         beginning = float(beginning)
@@ -40,11 +40,11 @@ def split_to_list(mp4_filename, textgrid_filename, output_root_dir):
             new_dir = hash_string[:2]
 
             new_filename = new_dir + "/" + hash_string[2:] + ".mp4"
-            if not os.path.exists(output_root_dir + new_dir):
-                os.makedirs(output_root_dir + new_dir)
-            shutil.move(tmp_mp4_filename, output_root_dir + new_filename)
+            if not os.path.exists(output_root_dir + "/" + new_dir):
+                os.makedirs(output_root_dir + "/" + new_dir)
+            shutil.move(tmp_mp4_filename, output_root_dir + "/" + new_filename)
             duration = end - beginning
-            values = [counter, mark, beginning, end, duration, new_filename]
+            values = [air_date, counter, mark, beginning, end, duration, new_filename]
             #query_list += [{"seq_number" : counter, "mark" : mark, "beginning" : beginning, "end" : end, "duration" : duration, "relative_filepath" : new_filename}]
             query_list += [values]
             counter += 1

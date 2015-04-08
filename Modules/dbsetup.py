@@ -10,17 +10,26 @@ try:
     conn = psycopg2.connect("dbname='postgres' user='johannes' host='localhost'")
     cur = conn.cursor()
     #create config table
-    cur.execute(""" CREATE TABLE 
-                    config_store(key VARCHAR(30) CONSTRAINT key_pk PRIMARY KEY, 
+    cur.execute(""" CREATE TABLE
+                    config_store(key VARCHAR(30) CONSTRAINT key_pk PRIMARY KEY,
                     value VARCHAR(30))
                     """)
     #create original content table
-
+    cur.execute(""" CREATE TABLE
+                    raw_material(air_date DATE PRIMARY KEY,
+                    text_relative_path VARCHAR(65),
+                    video_relative_path VARCHAR(65))
+                    """)
+    #create dictionary table
+    cur.execute(""" CREATE TABLE
+                    dictionary(word VARCHAR(30) constraint word_pk PRIMARY KEY)
+                    """)
     #create samples table
-    cur.execute(""" CREATE TABLE 
+    cur.execute(""" CREATE TABLE
                     samples(index SERIAL PRIMARY KEY,
+                    air_date DATE references raw_material(air_date),
                     seq_number INTEGER,
-                    mark VARCHAR(30),
+                    word VARCHAR(30) references dictionary(word),
                     start DECIMAL(8,4),
                     stop DECIMAL(8,4),
                     duration DECIMAL(8,4),
