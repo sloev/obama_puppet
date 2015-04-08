@@ -47,7 +47,7 @@ conn = None
 try:
     conn = psycopg2.connect("dbname='postgres' user='johannes' host='localhost'")
     cur = conn.cursor()
-    cur.execute("INSERT INTO raw_material(air_date, text_relative_path, video_relative_path) VALUES (%s, %s, %s)", [air_date, rel_grid_path, rel_video_path])
+#    cur.execute("INSERT INTO raw_material(air_date, text_relative_path, video_relative_path) VALUES (%s, %s, %s)", [air_date, rel_grid_path, rel_video_path])
     for query_list in l:
         print query_list
         cur.execute("""INSERT INTO dictionary(word)

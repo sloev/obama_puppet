@@ -1,0 +1,16 @@
+for at spørge efter en liste af ord fra samples og få dem i den orden man spørger efter er query'en:
+
+SELECT s.word, s.air_date, s.seq_number, s.start, s.stop, s.duration, s.relative_path FROM samples s JOIN ( VALUES('A',1),('EVERYBODY',2),('WHEN',3), ('MOMENT',4)) AS il(word, sort_order) ON il.word = s.word ORDER BY il.sort_order;
+
+som giver
+
+A
+A
+Everybody
+When
+When
+When
+Moment
+Moment 
+etc
+
