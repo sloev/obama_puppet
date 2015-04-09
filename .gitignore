@@ -1,2 +1,6 @@
 test/
 segments/
+
+*.mp3
+*.swp
+*.*.swp
