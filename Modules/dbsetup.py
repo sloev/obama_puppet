@@ -31,19 +31,41 @@ try:
     videos = []
     m = hashlib.sha256()
     filename = ""
+    last_word = None
+    last_duration = 0
+    lines = []
     for row in rows:
+        word = row['word']
+        duration = row['duration']
         path = row['relative_path']
         m.update(path)
         path = root + "/" + path
-        videos += [VideoFileClip(path)]
+        if word == last_word:
+            if last_duration < duration:
+                last_duration = duration
+                lines[-1] = "file \'" + path + "\'\n"
+                #videos[-1] = [VideoFileClip(path)]
+        else:
+            last_duration = 0
+            lines += ["file \'" + path + "\'\n"]
+            #videos += [VideoFileClip(path)]
+   
+        last_word = word 
         
-    final_video = concatenate(videos)
+    #final_video = concatenate(videos)
     sha = m.digest()
     filename = base64.b32encode(sha).strip("=")
-    filename = root + "/speeches/" + filename + ".mp4"  
-    final_video.write_videofile(filename)
+    txt_filename = root + "/speeches/" + filename + ".txt"  
+    mov_filename = root + "/speeches/" + filename + ".mp4"  
     
-    return filename
+    with open(filename, "w") as f:
+        f.writelines(lines)
+    import subprocess
+    subprocess.call(["/usr/local/bin/ffmpeg", "-f", "-i", txt_filename, "-c", "copy", mov_filename])    
+    
+    #final_video.write_videofile(filename)
+    
+    return mov_filename
     $$ LANGUAGE plpythonu""")
 
     #create config table
