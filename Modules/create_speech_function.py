@@ -1,3 +1,4 @@
+
 CREATE OR REPLACE FUNCTION create_speech(text text)
 RETURNS text AS $$
 a = "SELECT s.word, s.air_date, s.seq_number, s.start, s.stop, s.duration, s.relative_path FROM samples s JOIN ( VALUES"
@@ -30,7 +31,7 @@ for row in rows:
     if word == last_word:
         if last_duration < duration:
             last_duration = duration
-            lines[-1] = path
+            #lines[-1] = path
             #lines[-1] = "file \'" + path + "\'\n"
             #videos[-1] = [VideoFileClip(path)]
     else:
@@ -48,22 +49,29 @@ videos = []
 final_video = None
 for f in lines:
     videos += [VideoFileClip(f)]
-    if len(videos) > 2:
+    if len(videos) > 10:
         if not final_video:
             final_video = concatenate(videos)
         else:
             final_video = concatenate([final_video] + videos)
+        final_video.write_videofile("/tmp/obamatmp.mp4")
+        while videos:
+            v = videos.pop()
+            del v
         videos = []
-if videos:
-    final_video = concatenate([final_video] + videos)
-
-
+        final_video = VideoFileClip("/tmp/obamatmp.mp4")
 mov_filename = root + "/speeches/" + filename + ".mp4"  
-txt_filename = root + "/speeches/" + filename + ".txt"  
+         
+final_video = concatenate([final_video] + videos)
 final_video.write_videofile(mov_filename)
+while videos:
+    v = videos.pop()
+    del v
+del final_video
 
-with open(txt_filename, "w") as f:
-    f.writelines(lines)
+
+txt_filename = root + "/speeches/" + filename + ".txt"  
+
 
 #import subprocess
 #subprocess.call(["/usr/local/bin/ffmpeg", "-f", "-i", txt_filename, "-c", "copy", mov_filename])    
