@@ -1,6 +1,6 @@
 test/
 segments/
-
+Modules/*.json
 *.mp3
 *.swp
 *.*.swp
