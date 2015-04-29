@@ -6,12 +6,14 @@ import os
 import base64
 import hashlib
 import os.path
-
+MAX_WORDS = 100
 
 a = "SELECT s.word, s.air_date, s.seq_number, s.start, s.stop, s.duration, s.relative_path FROM samples s JOIN ( VALUES"
 
 c = ") AS ordered(word, sort_order) ON ordered.word = s.word ORDER BY ordered.sort_order"
 words = text.replace (" ", " SILENT_SPACE ").upper().split()
+if len(words) > MAX_WORDS:
+    return "ERROR: TOO MANY WORDS"
 values = []
 for index, _b in enumerate(words):
     _z = "(\'%s\',\'%d\')" %(_b, (index+1))
@@ -53,7 +55,7 @@ try:
     subprocess.check_call(["/usr/local/bin/ffmpeg", "-f", "concat", "-i", txt_filename, "-c", "copy", mov_filename])
     return mov_filename
 except subprocess.CalledProcessError, e:
-    return "ERROR"
+    return "ERROR: FFMPEG NOT CALLED"
 
 $$ LANGUAGE plpythonu
 
