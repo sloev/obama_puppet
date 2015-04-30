@@ -1,5 +1,14 @@
 #!/usr/bin/python
 
+
+
+
+# twitter help:
+# http://www.dototot.com/reply-tweets-python-tweepy-twitter-bot/
+
+
+
+
 import httplib
 import httplib2
 import os
@@ -228,7 +237,7 @@ if __name__ == '__main__':
   myfile = sys.argv[1]
   
   if not os.path.exists(myfile):
-    exit("Please specify a valid file using the --file= parameter.")
+    exit("Please specify a valid file")
   
   youtube = Youtube()
   try:
