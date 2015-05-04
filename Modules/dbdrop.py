@@ -8,7 +8,8 @@ try:
     cur.execute("DROP TABLE raw_material")
     cur.execute("DROP TABLE DICTIONARY")
     cur.execute("DROP TABLE config_store")
-
+    cur.execute("DROP TABLE users")
+    cur.execute("DROP TABLE tweets")
     conn.commit()
     print "done"
 except Exception, e:

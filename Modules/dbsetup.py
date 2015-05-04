@@ -13,7 +13,8 @@ try:
     cur = conn.cursor()
     cur.execute("CREATE EXTENSION IF NOT EXISTS plpythonu")
     cur.execute(create_speech_function)
-
+    cur.execute("""create table if not exists users(id int primary key)""");
+    cur.execute("""create table if not exists tweets(user_id int references users(id), speech varchar(140), url varchar(100))""")
     #create config table
     cur.execute(""" CREATE TABLE IF NOT EXISTS
                     config_store(key VARCHAR(30) CONSTRAINT key_pk PRIMARY KEY,
