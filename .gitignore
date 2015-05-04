@@ -4,3 +4,6 @@ Modules/*.json
 *.mp3
 *.swp
 *.*.swp
+
+*.pyc
+.apiconfig.json
